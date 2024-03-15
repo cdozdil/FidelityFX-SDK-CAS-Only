@@ -77,168 +77,168 @@
 
 #include <string.h> // for memset
 
-FfxErrorCode ffxGetPermutationBlobByIndex(
-    FfxEffect effectId,
-    FfxPass passId,
-    uint32_t permutationOptions,
-    FfxShaderBlob* outBlob)
+namespace FfxCas
 {
 
-    switch (effectId)
+    FfxErrorCode ffxGetPermutationBlobByIndex(FfxEffect effectId, FfxPass passId, uint32_t permutationOptions, FfxShaderBlob* outBlob)
     {
+        switch (effectId)
+        {
 #if defined(FFX_FSR) || defined(FFX_ALL)
-    case FFX_EFFECT_FSR2:
-        return fsr2GetPermutationBlobByIndex((FfxFsr2Pass)passId, permutationOptions, outBlob);
+        case FFX_EFFECT_FSR2:
+            return fsr2GetPermutationBlobByIndex((FfxFsr2Pass)passId, permutationOptions, outBlob);
 
-    case FFX_EFFECT_FSR1:
-        return fsr1GetPermutationBlobByIndex((FfxFsr1Pass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_FSR) || defined(FFX_ALL)
+        case FFX_EFFECT_FSR1:
+            return fsr1GetPermutationBlobByIndex((FfxFsr1Pass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_FSR) || defined(FFX_ALL)
 
 #if defined(FFX_SPD) || defined(FFX_ALL)
-    case FFX_EFFECT_SPD:
-        return spdGetPermutationBlobByIndex((FfxSpdPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_SPD) || defined(FFX_ALL)
+        case FFX_EFFECT_SPD:
+            return spdGetPermutationBlobByIndex((FfxSpdPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_SPD) || defined(FFX_ALL)
 
 #if defined(FFX_LPM) || defined(FFX_ALL)
-    case FFX_EFFECT_LPM:
-        return lpmGetPermutationBlobByIndex((FfxLpmPass)passId, permutationOptions, outBlob);
+        case FFX_EFFECT_LPM:
+            return lpmGetPermutationBlobByIndex((FfxLpmPass)passId, permutationOptions, outBlob);
 #endif  // #if defined(FFX_LPM) || defined(FFX_ALL)
 
 #if defined(FFX_DOF) || defined(FFX_ALL)
-    case FFX_EFFECT_DOF:
-        return dofGetPermutationBlobByIndex((FfxDofPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_DOF) || defined(FFX_ALL)
+        case FFX_EFFECT_DOF:
+            return dofGetPermutationBlobByIndex((FfxDofPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_DOF) || defined(FFX_ALL)
 
 #if defined(FFX_BLUR) || defined(FFX_ALL)
-    case FFX_EFFECT_BLUR:
-        return blurGetPermutationBlobByIndex((FfxBlurPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_BLUR) || defined(FFX_ALL)
+        case FFX_EFFECT_BLUR:
+            return blurGetPermutationBlobByIndex((FfxBlurPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_BLUR) || defined(FFX_ALL)
 
 #if defined(FFX_CACAO) || defined(FFX_ALL)
-    case FFX_EFFECT_CACAO:
-        return cacaoGetPermutationBlobByIndex((FfxCacaoPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_CACAO) || defined(FFX_ALL)
+        case FFX_EFFECT_CACAO:
+            return cacaoGetPermutationBlobByIndex((FfxCacaoPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_CACAO) || defined(FFX_ALL)
 
 #if defined(FFX_CAS) || defined(FFX_ALL)
-    case FFX_EFFECT_CAS:
-        return casGetPermutationBlobByIndex((FfxCasPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_CAS)
+        case FFX_EFFECT_CAS:
+            return casGetPermutationBlobByIndex((FfxCasPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_CAS)
 
 #if defined(FFX_LENS) || defined(FFX_ALL)
-    case FFX_EFFECT_LENS:
-        return lensGetPermutationBlobByIndex((FfxLensPass)passId, permutationOptions, outBlob);
+        case FFX_EFFECT_LENS:
+            return lensGetPermutationBlobByIndex((FfxLensPass)passId, permutationOptions, outBlob);
 #endif  // #if defined(FFX_SPD) || defined(FFX_ALL)
 
 #if defined(FFX_PARALLEL_SORT) || defined(FFX_ALL)
-    case FFX_EFFECT_PARALLEL_SORT:
-        return parallelSortGetPermutationBlobByIndex((FfxParallelSortPass)passId, permutationOptions, outBlob);
+        case FFX_EFFECT_PARALLEL_SORT:
+            return parallelSortGetPermutationBlobByIndex((FfxParallelSortPass)passId, permutationOptions, outBlob);
 #endif  // #if defined(FFX_PARALLEL_SORT) || defined(FFX_ALL)
 
 #if defined(FFX_VRS) || defined(FFX_ALL)
-    case FFX_EFFECT_VARIABLE_SHADING:
-        return vrsGetPermutationBlobByIndex((FfxVrsPass)passId, permutationOptions, outBlob);
+        case FFX_EFFECT_VARIABLE_SHADING:
+            return vrsGetPermutationBlobByIndex((FfxVrsPass)passId, permutationOptions, outBlob);
 #endif  // #if defined(FFX_VRS) || defined(FFX_ALL)
 
 #if defined(FFX_DENOISER) || defined(FFX_ALL)
-    case FFX_EFFECT_DENOISER:
-        return denoiserGetPermutationBlobByIndex((FfxDenoiserPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_DENOISER) || defined(FFX_ALL)
+        case FFX_EFFECT_DENOISER:
+            return denoiserGetPermutationBlobByIndex((FfxDenoiserPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_DENOISER) || defined(FFX_ALL)
 
 #if defined(FFX_SSSR) || defined(FFX_ALL)
-    case FFX_EFFECT_SSSR:
-        return sssrGetPermutationBlobByIndex((FfxSssrPass)passId, permutationOptions, outBlob);
-#endif // #if defined(FFX_SSSR) || defined(FFX_ALL)
+        case FFX_EFFECT_SSSR:
+            return sssrGetPermutationBlobByIndex((FfxSssrPass)passId, permutationOptions, outBlob);
+#endif  // #if defined(FFX_SSSR) || defined(FFX_ALL)
 
 #if defined(FFX_CLASSIFIER) || defined(FFX_ALL)
-    case FFX_EFFECT_CLASSIFIER:
-        return classifierGetPermutationBlobByIndex((FfxClassifierPass)passId, permutationOptions, outBlob);
+        case FFX_EFFECT_CLASSIFIER:
+            return classifierGetPermutationBlobByIndex((FfxClassifierPass)passId, permutationOptions, outBlob);
 #endif  // #if defined(FFX_HYBRIDSHADOWS) || defined(FFX_ALL)
-    default:
-        FFX_ASSERT_MESSAGE(false, "Not implemented");
-        break;
+        default:
+            FFX_ASSERT_MESSAGE(false, "Not implemented");
+            break;
+        }
+
+        // return an empty blob
+        memset(&outBlob, 0, sizeof(FfxShaderBlob));
+        return FFX_OK;
     }
 
-    // return an empty blob
-    memset(&outBlob, 0, sizeof(FfxShaderBlob));
-    return FFX_OK;
-}
-
-FfxErrorCode ffxIsWave64(FfxEffect effectId, uint32_t permutationOptions, bool& isWave64)
-{
-switch (effectId)
+    FfxErrorCode ffxIsWave64(FfxEffect effectId, uint32_t permutationOptions, bool& isWave64)
     {
+        switch (effectId)
+        {
 #if defined(FFX_FSR) || defined(FFX_ALL)
-    case FFX_EFFECT_FSR2:
-        return fsr2IsWave64(permutationOptions, isWave64);
+        case FFX_EFFECT_FSR2:
+            return fsr2IsWave64(permutationOptions, isWave64);
 
-    case FFX_EFFECT_FSR1:
-        return fsr1IsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_FSR) || defined(FFX_ALL)
+        case FFX_EFFECT_FSR1:
+            return fsr1IsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_FSR) || defined(FFX_ALL)
 
 #if defined(FFX_SPD) || defined(FFX_ALL)
-    case FFX_EFFECT_SPD:
-        return spdIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_SPD) || defined(FFX_ALL)
+        case FFX_EFFECT_SPD:
+            return spdIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_SPD) || defined(FFX_ALL)
 
 #if defined(FFX_LPM) || defined(FFX_ALL)
-    case FFX_EFFECT_LPM:
-        return lpmIsWave64(permutationOptions, isWave64);
+        case FFX_EFFECT_LPM:
+            return lpmIsWave64(permutationOptions, isWave64);
 #endif  // #if defined(FFX_LPM) || defined(FFX_ALL)
 
 #if defined(FFX_DOF) || defined(FFX_ALL)
-    case FFX_EFFECT_DOF:
-        return dofIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_DOF) || defined(FFX_ALL)
+        case FFX_EFFECT_DOF:
+            return dofIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_DOF) || defined(FFX_ALL)
 
 #if defined(FFX_BLUR) || defined(FFX_ALL)
-    case FFX_EFFECT_BLUR:
-        return blurIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_BLUR) || defined(FFX_ALL)
+        case FFX_EFFECT_BLUR:
+            return blurIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_BLUR) || defined(FFX_ALL)
 
 #if defined(FFX_CACAO) || defined(FFX_ALL)
-    case FFX_EFFECT_CACAO:
-        return cacaoIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_CACAO) || defined(FFX_ALL)
+        case FFX_EFFECT_CACAO:
+            return cacaoIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_CACAO) || defined(FFX_ALL)
 
 #if defined(FFX_CAS) || defined(FFX_ALL)
-    case FFX_EFFECT_CAS:
-        return casIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_CAS)
+        case FFX_EFFECT_CAS:
+            return casIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_CAS)
 
 #if defined(FFX_LENS) || defined(FFX_ALL)
-    case FFX_EFFECT_LENS:
-        return lensIsWave64(permutationOptions, isWave64);
+        case FFX_EFFECT_LENS:
+            return lensIsWave64(permutationOptions, isWave64);
 #endif  // #if defined(FFX_SPD) || defined(FFX_ALL)
 
 #if defined(FFX_PARALLEL_SORT) || defined(FFX_ALL)
-    case FFX_EFFECT_PARALLEL_SORT:
-        return parallelSortIsWave64(permutationOptions, isWave64);
+        case FFX_EFFECT_PARALLEL_SORT:
+            return parallelSortIsWave64(permutationOptions, isWave64);
 #endif  // #if defined(FFX_PARALLEL_SORT) || defined(FFX_ALL)
 
 #if defined(FFX_VRS) || defined(FFX_ALL)
-    case FFX_EFFECT_VARIABLE_SHADING:
-        return vrsIsWave64(permutationOptions, isWave64);
+        case FFX_EFFECT_VARIABLE_SHADING:
+            return vrsIsWave64(permutationOptions, isWave64);
 #endif  // #if defined(FFX_VRS) || defined(FFX_ALL)
 
 #if defined(FFX_DENOISER) || defined(FFX_ALL)
-    case FFX_EFFECT_DENOISER:
-        return denoiserIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_DENOISER) || defined(FFX_ALL)
+        case FFX_EFFECT_DENOISER:
+            return denoiserIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_DENOISER) || defined(FFX_ALL)
 
 #if defined(FFX_SSSR) || defined(FFX_ALL)
-    case FFX_EFFECT_SSSR:
-        return sssrIsWave64(permutationOptions, isWave64);
-#endif // #if defined(FFX_SSSR) || defined(FFX_ALL)
+        case FFX_EFFECT_SSSR:
+            return sssrIsWave64(permutationOptions, isWave64);
+#endif  // #if defined(FFX_SSSR) || defined(FFX_ALL)
 
 #if defined(FFX_CLASSIFIER) || defined(FFX_ALL)
-    case FFX_EFFECT_CLASSIFIER:
-        return classifierIsWave64(permutationOptions, isWave64);
+        case FFX_EFFECT_CLASSIFIER:
+            return classifierIsWave64(permutationOptions, isWave64);
 #endif  // #if defined(FFX_HYBRIDSHADOWS) || defined(FFX_ALL)
-    default:
-        FFX_ASSERT_MESSAGE(false, "Not implemented");
-        isWave64 = false;
-        break;
+        default:
+            FFX_ASSERT_MESSAGE(false, "Not implemented");
+            isWave64 = false;
+            break;
+        }
+
+        return FFX_ERROR_BACKEND_API_ERROR;
     }
-    
-    return FFX_ERROR_BACKEND_API_ERROR;
-}
+
+}  // namespace FfxCas

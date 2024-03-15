@@ -22,21 +22,23 @@
 
 #include <FidelityFX/host/ffx_interface.h>
 #include "ffx_object_management.h"
-
-void ffxSafeReleasePipeline(FfxInterface* backendInterface, FfxPipelineState* pipeline, FfxUInt32 effectContextId)
+namespace FfxCas
 {
-    FFX_ASSERT(pipeline);
-    backendInterface->fpDestroyPipeline(backendInterface, pipeline, effectContextId);
-}
+    void ffxSafeReleasePipeline(FfxInterface* backendInterface, FfxPipelineState* pipeline, FfxUInt32 effectContextId)
+    {
+        FFX_ASSERT(pipeline);
+        backendInterface->fpDestroyPipeline(backendInterface, pipeline, effectContextId);
+    }
 
-void ffxSafeReleaseCopyResource(FfxInterface* backendInterface, FfxResourceInternal resource)
-{
-    FfxResourceInternal copyResource;
-    copyResource.internalIndex = resource.internalIndex + 1;
-    backendInterface->fpDestroyResource(backendInterface, copyResource);
-}
+    void ffxSafeReleaseCopyResource(FfxInterface* backendInterface, FfxResourceInternal resource)
+    {
+        FfxResourceInternal copyResource;
+        copyResource.internalIndex = resource.internalIndex + 1;
+        backendInterface->fpDestroyResource(backendInterface, copyResource);
+    }
 
-void ffxSafeReleaseResource(FfxInterface* backendInterface, FfxResourceInternal resource)
-{
-    backendInterface->fpDestroyResource(backendInterface, resource);
-}
+    void ffxSafeReleaseResource(FfxInterface* backendInterface, FfxResourceInternal resource)
+    {
+        backendInterface->fpDestroyResource(backendInterface, resource);
+    }
+}  // namespace FfxCas

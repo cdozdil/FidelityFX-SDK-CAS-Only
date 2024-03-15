@@ -26,19 +26,20 @@
 #include <FidelityFX/host/ffx_cas.h>
 #include <stdint.h>
 
-#if defined(__cplusplus)
-extern "C" {
-#endif  // #if defined(__cplusplus)
-
-// Get a DX12 shader blob for the specified pass and permutation index.
-FfxErrorCode casGetPermutationBlobByIndex(
-    FfxCasPass passId, 
-    uint32_t permutationOptions, 
-    FfxShaderBlob* outBlob);
-
-// Check is Wave64 is requested on this permutation
-FfxErrorCode casIsWave64(uint32_t permutationOptions, bool& isWave64);
+namespace FfxCas
+{
 
 #if defined(__cplusplus)
-}
+    extern "C" {
 #endif  // #if defined(__cplusplus)
+
+    // Get a DX12 shader blob for the specified pass and permutation index.
+    FfxErrorCode casGetPermutationBlobByIndex(FfxCasPass passId, uint32_t permutationOptions, FfxShaderBlob* outBlob);
+
+    // Check is Wave64 is requested on this permutation
+    FfxErrorCode casIsWave64(uint32_t permutationOptions, bool& isWave64);
+
+#if defined(__cplusplus)
+    }
+#endif  // #if defined(__cplusplus)
+}  // namespace FfxCas

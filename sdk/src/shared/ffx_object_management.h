@@ -22,14 +22,19 @@
 
 #pragma once
 
-#if defined(__cplusplus)
-extern "C" {
-#endif  // #if defined(__cplusplus)
-
-void ffxSafeReleasePipeline(FfxInterface* backendInterface, FfxPipelineState* pipeline, FfxUInt32 effectContextId);
-void ffxSafeReleaseCopyResource(FfxInterface* backendInterface, FfxResourceInternal resource);
-void ffxSafeReleaseResource(FfxInterface* backendInterface, FfxResourceInternal resource);
+namespace FfxCas
+{
 
 #if defined(__cplusplus)
-}
+    extern "C" {
 #endif  // #if defined(__cplusplus)
+
+    void ffxSafeReleasePipeline(FfxInterface* backendInterface, FfxPipelineState* pipeline, FfxUInt32 effectContextId);
+    void ffxSafeReleaseCopyResource(FfxInterface* backendInterface, FfxResourceInternal resource);
+    void ffxSafeReleaseResource(FfxInterface* backendInterface, FfxResourceInternal resource);
+
+#if defined(__cplusplus)
+    }
+#endif  // #if defined(__cplusplus)
+
+}  // namespace FfxCas

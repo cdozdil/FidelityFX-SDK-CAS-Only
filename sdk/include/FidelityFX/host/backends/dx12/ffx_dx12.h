@@ -30,78 +30,79 @@
 #include <d3d12.h>
 #include <FidelityFX/host/ffx_interface.h>
 
-#if defined(__cplusplus)
-extern "C" {
-#endif // #if defined(__cplusplus)
-
-/// Query how much memory is required for the DirectX 12 backend's scratch buffer.
-/// 
-/// @param [in] maxContexts                 The maximum number of simultaneous effect contexts that will share the backend.
-///                                         (Note that some effects contain internal contexts which count towards this maximum)
-///
-/// @returns
-/// The size (in bytes) of the required scratch memory buffer for the DX12 backend.
-/// @ingroup DX12Backend
-FFX_API size_t ffxGetScratchMemorySizeDX12(size_t maxContexts);
-
-/// Create a <c><i>FfxDevice</i></c> from a <c><i>ID3D12Device</i></c>.
-///
-/// @param [in] device                      A pointer to the DirectX12 device.
-///
-/// @returns
-/// An abstract FidelityFX device.
-///
-/// @ingroup DX12Backend
-FFX_API FfxDevice ffxGetDeviceDX12(ID3D12Device* device);
-
-/// Populate an interface with pointers for the DX12 backend.
-///
-/// @param [out] backendInterface           A pointer to a <c><i>FfxInterface</i></c> structure to populate with pointers.
-/// @param [in] device                      A pointer to the DirectX12 device.
-/// @param [in] scratchBuffer               A pointer to a buffer of memory which can be used by the DirectX(R)12 backend.
-/// @param [in] scratchBufferSize           The size (in bytes) of the buffer pointed to by <c><i>scratchBuffer</i></c>.
-/// @param [in] maxContexts                 The maximum number of simultaneous effect contexts that will share the backend.
-///                                         (Note that some effects contain internal contexts which count towards this maximum)
-///
-/// @retval
-/// FFX_OK                                  The operation completed successfully.
-/// @retval
-/// FFX_ERROR_CODE_INVALID_POINTER          The <c><i>interface</i></c> pointer was <c><i>NULL</i></c>.
-///
-/// @ingroup DX12Backend
-FFX_API FfxErrorCode ffxGetInterfaceDX12(
-    FfxInterface* backendInterface,
-    FfxDevice device,
-    void* scratchBuffer,
-    size_t scratchBufferSize, 
-    size_t maxContexts);
-
-/// Create a <c><i>FfxCommandList</i></c> from a <c><i>ID3D12CommandList</i></c>.
-///
-/// @param [in] cmdList                     A pointer to the DirectX12 command list.
-///
-/// @returns
-/// An abstract FidelityFX command list.
-///
-/// @ingroup DX12Backend
-FFX_API FfxCommandList ffxGetCommandListDX12(ID3D12CommandList* cmdList);
-
-/// Fetch a <c><i>FfxResource</i></c> from a <c><i>GPUResource</i></c>.
-///
-/// @param [in] dx12Resource                A pointer to the DX12 resource.
-/// @param [in] ffxResDescription           An <c><i>FfxResourceDescription</i></c> for the resource representation.
-/// @param [in] ffxResName                  (optional) A name string to identify the resource in debug mode.
-/// @param [in] state                       The state the resource is currently in.
-///
-/// @returns
-/// An abstract FidelityFX resources.
-///
-/// @ingroup DX12Backend
-FFX_API FfxResource ffxGetResourceDX12(ID3D12Resource* dx12Resource,
-    FfxResourceDescription       ffxResDescription,
-    wchar_t* ffxResName,
-    FfxResourceStates            state = FFX_RESOURCE_STATE_COMPUTE_READ);
+namespace FfxCas
+{
 
 #if defined(__cplusplus)
-}
-#endif // #if defined(__cplusplus)
+    extern "C" {
+#endif  // #if defined(__cplusplus)
+
+    /// Query how much memory is required for the DirectX 12 backend's scratch buffer.
+    ///
+    /// @param [in] maxContexts                 The maximum number of simultaneous effect contexts that will share the backend.
+    ///                                         (Note that some effects contain internal contexts which count towards this maximum)
+    ///
+    /// @returns
+    /// The size (in bytes) of the required scratch memory buffer for the DX12 backend.
+    /// @ingroup DX12Backend
+    FFX_API size_t ffxGetScratchMemorySizeDX12Cas(size_t maxContexts);
+
+    /// Create a <c><i>FfxDevice</i></c> from a <c><i>ID3D12Device</i></c>.
+    ///
+    /// @param [in] device                      A pointer to the DirectX12 device.
+    ///
+    /// @returns
+    /// An abstract FidelityFX device.
+    ///
+    /// @ingroup DX12Backend
+    FFX_API FfxDevice ffxGetDeviceDX12Cas(ID3D12Device* device);
+
+    /// Populate an interface with pointers for the DX12 backend.
+    ///
+    /// @param [out] backendInterface           A pointer to a <c><i>FfxInterface</i></c> structure to populate with pointers.
+    /// @param [in] device                      A pointer to the DirectX12 device.
+    /// @param [in] scratchBuffer               A pointer to a buffer of memory which can be used by the DirectX(R)12 backend.
+    /// @param [in] scratchBufferSize           The size (in bytes) of the buffer pointed to by <c><i>scratchBuffer</i></c>.
+    /// @param [in] maxContexts                 The maximum number of simultaneous effect contexts that will share the backend.
+    ///                                         (Note that some effects contain internal contexts which count towards this maximum)
+    ///
+    /// @retval
+    /// FFX_OK                                  The operation completed successfully.
+    /// @retval
+    /// FFX_ERROR_CODE_INVALID_POINTER          The <c><i>interface</i></c> pointer was <c><i>NULL</i></c>.
+    ///
+    /// @ingroup DX12Backend
+    FFX_API FfxErrorCode
+    ffxGetInterfaceDX12Cas(FfxInterface* backendInterface, FfxDevice device, void* scratchBuffer, size_t scratchBufferSize, size_t maxContexts);
+
+    /// Create a <c><i>FfxCommandList</i></c> from a <c><i>ID3D12CommandList</i></c>.
+    ///
+    /// @param [in] cmdList                     A pointer to the DirectX12 command list.
+    ///
+    /// @returns
+    /// An abstract FidelityFX command list.
+    ///
+    /// @ingroup DX12Backend
+    FFX_API FfxCommandList ffxGetCommandListDX12Cas(ID3D12CommandList* cmdList);
+
+    /// Fetch a <c><i>FfxResource</i></c> from a <c><i>GPUResource</i></c>.
+    ///
+    /// @param [in] dx12Resource                A pointer to the DX12 resource.
+    /// @param [in] ffxResDescription           An <c><i>FfxResourceDescription</i></c> for the resource representation.
+    /// @param [in] ffxResName                  (optional) A name string to identify the resource in debug mode.
+    /// @param [in] state                       The state the resource is currently in.
+    ///
+    /// @returns
+    /// An abstract FidelityFX resources.
+    ///
+    /// @ingroup DX12Backend
+    FFX_API FfxResource ffxGetResourceDX12Cas(ID3D12Resource*        dx12Resource,
+                                           FfxResourceDescription ffxResDescription,
+                                           wchar_t*               ffxResName,
+                                           FfxResourceStates      state = FFX_RESOURCE_STATE_COMPUTE_READ);
+
+#if defined(__cplusplus)
+    }
+#endif  // #if defined(__cplusplus)
+
+}  // namespace FfxCas

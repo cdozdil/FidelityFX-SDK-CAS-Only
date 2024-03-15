@@ -25,21 +25,23 @@
 #include <stdint.h>
 #include <FidelityFX/host/ffx_interface.h>
 
-#if defined(__cplusplus)
-extern "C" {
-#endif // #if defined(__cplusplus)
-
-struct FfxShaderBlob;
-
-// Get a shader blob for the specified effect, pass, and permutation index.
-FfxErrorCode ffxGetPermutationBlobByIndex(FfxEffect effectId,
-    FfxPass passId,
-    uint32_t permutationOptions,
-    FfxShaderBlob* outBlob);
-
-// Check is Wave64 is requested on this permutation
-FfxErrorCode ffxIsWave64(FfxEffect effectId, uint32_t permutationOptions, bool& isWave64);
+namespace FfxCas
+{
 
 #if defined(__cplusplus)
-}
-#endif // #if defined(__cplusplus)
+    extern "C" {
+#endif  // #if defined(__cplusplus)
+
+    struct FfxShaderBlob;
+
+    // Get a shader blob for the specified effect, pass, and permutation index.
+    FfxErrorCode ffxGetPermutationBlobByIndex(FfxEffect effectId, FfxPass passId, uint32_t permutationOptions, FfxShaderBlob* outBlob);
+
+    // Check is Wave64 is requested on this permutation
+    FfxErrorCode ffxIsWave64(FfxEffect effectId, uint32_t permutationOptions, bool& isWave64);
+
+#if defined(__cplusplus)
+    }
+#endif  // #if defined(__cplusplus)
+
+}  // namespace FfxCas
