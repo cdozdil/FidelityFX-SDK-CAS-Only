@@ -148,7 +148,7 @@ void FfxLensApplyVignette(FfxInt32x2 coord, FfxInt32x2 centerCoord, inout FfxFlo
     FfxFloat16x2 vignetteMask    = FfxFloat16x2(0.0, 0.0);
     FfxFloat16x2 coordFromCenter = FfxFloat16x2(abs(coord - centerCoord)) / FfxFloat16x2(centerCoord);
 
-    const FfxFloat16 piOver4 = FfxFloat16(FFX_PI * 0.25);
+    const FfxFloat16 piOver4 = FfxFloat16(FFX_PI_CAS * 0.25);
     vignetteMask = FfxFloat16x2(cos(coordFromCenter * vignetteAmount * piOver4));
     vignetteMask = vignetteMask * vignetteMask;
     vignetteMask = vignetteMask * vignetteMask;
@@ -246,7 +246,7 @@ void FfxLensApplyVignette(FfxInt32x2 coord, FfxInt32x2 centerCoord, inout FfxFlo
     FfxFloat32x2 vignetteMask    = FfxFloat32x2(0.0, 0.0);
     FfxFloat32x2 coordFromCenter = abs(coord - centerCoord) / FfxFloat32x2(centerCoord);
 
-    const FfxFloat32 piOver4 = FFX_PI * 0.25;
+    const FfxFloat32 piOver4 = FFX_PI_CAS * 0.25;
     vignetteMask = cos(coordFromCenter * vignetteAmount * piOver4);
     vignetteMask = vignetteMask * vignetteMask;
     vignetteMask = vignetteMask * vignetteMask;

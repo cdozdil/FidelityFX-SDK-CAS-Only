@@ -100,7 +100,7 @@ namespace FfxCas
         uint32_t        constantBufferSize;
         uint32_t        constantBufferOffset;
 
-        D3D12_RESOURCE_BARRIER barriers[FFX_MAX_BARRIERS];
+        D3D12_RESOURCE_BARRIER barriers[FFX_MAX_BARRIERS_CAS];
         uint32_t               barrierCount;
 
         typedef struct alignas(32) EffectContext
@@ -124,11 +124,11 @@ namespace FfxCas
 
     } BackendContext_DX12;
 
-    FFX_API size_t ffxGetScratchMemorySizeDX12Cas(size_t maxContexts)
+    size_t ffxGetScratchMemorySizeDX12Cas(size_t maxContexts)
     {
-        uint32_t resourceArraySize   = FFX_ALIGN_UP(maxContexts * FFX_MAX_RESOURCE_COUNT * sizeof(BackendContext_DX12::Resource), sizeof(uint64_t));
+        uint32_t resourceArraySize   = FFX_ALIGN_UP(maxContexts * FFX_MAX_RESOURCE_COUNT_CAS * sizeof(BackendContext_DX12::Resource), sizeof(uint64_t));
         uint32_t contextArraySize    = FFX_ALIGN_UP(maxContexts * sizeof(BackendContext_DX12::EffectContext), sizeof(uint32_t));
-        uint32_t gpuJobDescArraySize = FFX_ALIGN_UP(maxContexts * FFX_MAX_GPU_JOBS * sizeof(FfxGpuJobDescription), sizeof(uint32_t));
+        uint32_t gpuJobDescArraySize = FFX_ALIGN_UP(maxContexts * FFX_MAX_GPU_JOBS_CAS * sizeof(FfxGpuJobDescription), sizeof(uint32_t));
 
         return FFX_ALIGN_UP(sizeof(BackendContext_DX12) + resourceArraySize + contextArraySize + gpuJobDescArraySize, sizeof(uint64_t));
     }
@@ -443,7 +443,7 @@ namespace FfxCas
         ID3D12Resource*         dx12Resource = getDX12ResourcePtr(backendContext, resource->internalIndex);
         D3D12_RESOURCE_BARRIER* barrier      = &backendContext->barriers[backendContext->barrierCount];
 
-        FFX_ASSERT(backendContext->barrierCount < FFX_MAX_BARRIERS);
+        FFX_ASSERT(backendContext->barrierCount < FFX_MAX_BARRIERS_CAS);
 
         FfxResourceStates* currentState = &backendContext->pResources[resource->internalIndex].currentState;
 
@@ -507,8 +507,8 @@ namespace FfxCas
             }
 
             // Map all of our pointers
-            uint32_t gpuJobDescArraySize = FFX_ALIGN_UP(s_MaxEffectContexts * FFX_MAX_GPU_JOBS * sizeof(FfxGpuJobDescription), sizeof(uint32_t));
-            uint32_t resourceArraySize   = FFX_ALIGN_UP(s_MaxEffectContexts * FFX_MAX_RESOURCE_COUNT * sizeof(BackendContext_DX12::Resource), sizeof(uint64_t));
+            uint32_t gpuJobDescArraySize = FFX_ALIGN_UP(s_MaxEffectContexts * FFX_MAX_GPU_JOBS_CAS * sizeof(FfxGpuJobDescription), sizeof(uint32_t));
+            uint32_t resourceArraySize   = FFX_ALIGN_UP(s_MaxEffectContexts * FFX_MAX_RESOURCE_COUNT_CAS * sizeof(BackendContext_DX12::Resource), sizeof(uint64_t));
             uint32_t contextArraySize    = FFX_ALIGN_UP(s_MaxEffectContexts * sizeof(BackendContext_DX12::EffectContext), sizeof(uint32_t));
             uint8_t* pMem                = (uint8_t*)((BackendContext_DX12*)(backendContext + 1));
 
@@ -528,7 +528,7 @@ namespace FfxCas
 
             // CPUVisible
             D3D12_DESCRIPTOR_HEAP_DESC descHeap;
-            descHeap.NumDescriptors = FFX_MAX_RESOURCE_COUNT * s_MaxEffectContexts;
+            descHeap.NumDescriptors = FFX_MAX_RESOURCE_COUNT_CAS * s_MaxEffectContexts;
             descHeap.Type           = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
             descHeap.Flags          = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
             descHeap.NodeMask       = 0;
@@ -541,14 +541,14 @@ namespace FfxCas
             result         = dx12Device->CreateDescriptorHeap(&descHeap, IID_PPV_ARGS(&backendContext->descHeapUavGpu));
 
             // descriptor ring buffer
-            descHeap.NumDescriptors            = FFX_RING_BUFFER_SIZE * s_MaxEffectContexts;
+            descHeap.NumDescriptors            = FFX_RING_BUFFER_SIZE_CAS * s_MaxEffectContexts;
             backendContext->descRingBufferSize = descHeap.NumDescriptors;
             backendContext->descRingBufferBase = 0;
             result                             = dx12Device->CreateDescriptorHeap(&descHeap, IID_PPV_ARGS(&backendContext->descRingBuffer));
 
             // create dynamic ring buffer for constant uploads
             backendContext->constantBufferSize =
-                FFX_ALIGN_UP(FFX_MAX_CONST_SIZE, 256) * s_MaxEffectContexts * FFX_MAX_PASS_COUNT * FFX_MAX_QUEUED_FRAMES;  // Size aligned to 256
+                FFX_ALIGN_UP(FFX_MAX_CONST_SIZE_CAS, 256) * s_MaxEffectContexts * FFX_MAX_PASS_COUNT_CAS * FFX_MAX_QUEUED_FRAMES_CAS;  // Size aligned to 256
 
             CD3DX12_RESOURCE_DESC constDesc = CD3DX12_RESOURCE_DESC::Buffer(backendContext->constantBufferSize);
             TIF(dx12Device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -577,10 +577,10 @@ namespace FfxCas
                 // Reset everything accordingly
                 BackendContext_DX12::EffectContext& effectContext = backendContext->pEffectContexts[i];
                 effectContext.active                              = true;
-                effectContext.nextStaticResource                  = (i * FFX_MAX_RESOURCE_COUNT) + 1;
-                effectContext.nextDynamicResource                 = (i * FFX_MAX_RESOURCE_COUNT) + FFX_MAX_RESOURCE_COUNT - 1;
-                effectContext.nextStaticUavDescriptor             = (i * FFX_MAX_RESOURCE_COUNT);
-                effectContext.nextDynamicUavDescriptor            = (i * FFX_MAX_RESOURCE_COUNT) + FFX_MAX_RESOURCE_COUNT - 1;
+                effectContext.nextStaticResource                  = (i * FFX_MAX_RESOURCE_COUNT_CAS) + 1;
+                effectContext.nextDynamicResource                 = (i * FFX_MAX_RESOURCE_COUNT_CAS) + FFX_MAX_RESOURCE_COUNT_CAS - 1;
+                effectContext.nextStaticUavDescriptor             = (i * FFX_MAX_RESOURCE_COUNT_CAS);
+                effectContext.nextDynamicUavDescriptor            = (i * FFX_MAX_RESOURCE_COUNT_CAS) + FFX_MAX_RESOURCE_COUNT_CAS - 1;
                 break;
             }
         }
@@ -680,7 +680,7 @@ namespace FfxCas
 
         // Delete any resources allocated by this context
         BackendContext_DX12::EffectContext& effectContext = backendContext->pEffectContexts[effectContextId];
-        for (int32_t currentStaticResourceIndex = effectContextId * FFX_MAX_RESOURCE_COUNT; currentStaticResourceIndex < effectContext.nextStaticResource;
+        for (int32_t currentStaticResourceIndex = effectContextId * FFX_MAX_RESOURCE_COUNT_CAS; currentStaticResourceIndex < effectContext.nextStaticResource;
              ++currentStaticResourceIndex)
         {
             if (backendContext->pResources[currentStaticResourceIndex].resourcePtr)
@@ -1340,7 +1340,7 @@ namespace FfxCas
         BackendContext_DX12::EffectContext& effectContext  = backendContext->pEffectContexts[effectContextId];
 
         // Walk back all the resources that don't belong to us and reset them to their initial state
-        for (uint32_t resourceIndex = ++effectContext.nextDynamicResource; resourceIndex < (effectContextId * FFX_MAX_RESOURCE_COUNT) + FFX_MAX_RESOURCE_COUNT;
+        for (uint32_t resourceIndex = ++effectContext.nextDynamicResource; resourceIndex < (effectContextId * FFX_MAX_RESOURCE_COUNT_CAS) + FFX_MAX_RESOURCE_COUNT_CAS;
              ++resourceIndex)
         {
             FfxResourceInternal internalResource;
@@ -1355,8 +1355,8 @@ namespace FfxCas
 
         flushBarriers(backendContext, pCmdList);
 
-        effectContext.nextDynamicResource      = (effectContextId * FFX_MAX_RESOURCE_COUNT) + FFX_MAX_RESOURCE_COUNT - 1;
-        effectContext.nextDynamicUavDescriptor = (effectContextId * FFX_MAX_RESOURCE_COUNT) + FFX_MAX_RESOURCE_COUNT - 1;
+        effectContext.nextDynamicResource      = (effectContextId * FFX_MAX_RESOURCE_COUNT_CAS) + FFX_MAX_RESOURCE_COUNT_CAS - 1;
+        effectContext.nextDynamicUavDescriptor = (effectContextId * FFX_MAX_RESOURCE_COUNT_CAS) + FFX_MAX_RESOURCE_COUNT_CAS - 1;
 
         return FFX_OK;
     }
@@ -1414,9 +1414,9 @@ namespace FfxCas
         // easiest implementation: simply create one root signature per pipeline
         // should add some management later on to avoid unnecessarily re-binding the root signature
         {
-            FFX_ASSERT(pipelineDescription->samplerCount <= FFX_MAX_SAMPLERS);
+            FFX_ASSERT(pipelineDescription->samplerCount <= FFX_MAX_SAMPLERS_CAS);
             const size_t              samplerCount = pipelineDescription->samplerCount;
-            D3D12_STATIC_SAMPLER_DESC dx12SamplerDescriptions[FFX_MAX_SAMPLERS];
+            D3D12_STATIC_SAMPLER_DESC dx12SamplerDescriptions[FFX_MAX_SAMPLERS_CAS];
             for (uint32_t currentSamplerIndex = 0; currentSamplerIndex < samplerCount; ++currentSamplerIndex)
             {
                 D3D12_STATIC_SAMPLER_DESC dx12SamplerDesc = {};
@@ -1511,9 +1511,9 @@ namespace FfxCas
             }
 
             // Setup root constants as push constants for dx12
-            FFX_ASSERT(pipelineDescription->rootConstantBufferCount <= FFX_MAX_NUM_CONST_BUFFERS);
+            FFX_ASSERT(pipelineDescription->rootConstantBufferCount <= FFX_MAX_NUM_CONST_BUFFERS_CAS);
             size_t   rootConstantsSize = pipelineDescription->rootConstantBufferCount;
-            uint32_t rootConstants[FFX_MAX_NUM_CONST_BUFFERS];
+            uint32_t rootConstants[FFX_MAX_NUM_CONST_BUFFERS_CAS];
 
             for (uint32_t currentRootConstantIndex = 0; currentRootConstantIndex < pipelineDescription->rootConstantBufferCount; ++currentRootConstantIndex)
             {
@@ -1707,7 +1707,7 @@ namespace FfxCas
 
         BackendContext_DX12* backendContext = (BackendContext_DX12*)backendInterface->scratchBuffer;
 
-        FFX_ASSERT(backendContext->gpuJobCount < FFX_MAX_GPU_JOBS);
+        FFX_ASSERT(backendContext->gpuJobCount < FFX_MAX_GPU_JOBS_CAS);
 
         backendContext->pGpuJobs[backendContext->gpuJobCount] = *job;
 
@@ -1769,7 +1769,7 @@ namespace FfxCas
             if (maximumUavIndex)
             {
                 // check if this fits into the ringbuffer, loop if not fitting
-                if (backendContext->descRingBufferBase + maximumUavIndex + 1 > FFX_RING_BUFFER_SIZE * s_MaxEffectContexts)
+                if (backendContext->descRingBufferBase + maximumUavIndex + 1 > FFX_RING_BUFFER_SIZE_CAS * s_MaxEffectContexts)
                     backendContext->descRingBufferBase = 0;
 
                 D3D12_GPU_DESCRIPTOR_HANDLE gpuView = dx12DescriptorHeap->GetGPUDescriptorHandleForHeapStart();
@@ -1856,7 +1856,7 @@ namespace FfxCas
             if (maximumSrvIndex)
             {
                 // check if this fits into the ringbuffer, loop if not fitting
-                if (backendContext->descRingBufferBase + maximumSrvIndex + 1 > FFX_RING_BUFFER_SIZE * s_MaxEffectContexts)
+                if (backendContext->descRingBufferBase + maximumSrvIndex + 1 > FFX_RING_BUFFER_SIZE_CAS * s_MaxEffectContexts)
                 {
                     backendContext->descRingBufferBase = 0;
                 }
