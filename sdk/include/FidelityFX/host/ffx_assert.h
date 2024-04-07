@@ -99,7 +99,7 @@ namespace FfxCas
 #define FFX_ASSERT(condition)                                                      \
     do                                                                             \
     {                                                                              \
-        if (!(condition) && ffxAssertReport(__FILE__, __LINE__, #condition, NULL)) \
+        if (!(condition) && FfxCas::ffxAssertReport(__FILE__, __LINE__, #condition, NULL)) \
             FFX_DEBUG_BREAK                                                        \
     } while (0)
 
@@ -109,7 +109,7 @@ namespace FfxCas
 #define FFX_ASSERT_MESSAGE(condition, msg)                                        \
     do                                                                            \
     {                                                                             \
-        if (!(condition) && ffxAssertReport(__FILE__, __LINE__, #condition, msg)) \
+        if (!(condition) && FfxCas::ffxAssertReport(__FILE__, __LINE__, #condition, msg)) \
             FFX_DEBUG_BREAK                                                       \
     } while (0)
 
@@ -119,7 +119,7 @@ namespace FfxCas
 #define FFX_ASSERT_FAIL(message)                            \
     do                                                      \
     {                                                       \
-        ffxAssertReport(__FILE__, __LINE__, NULL, message); \
+        FfxCas::ffxAssertReport(__FILE__, __LINE__, NULL, message); \
         FFX_DEBUG_BREAK                                     \
     } while (0)
 #else

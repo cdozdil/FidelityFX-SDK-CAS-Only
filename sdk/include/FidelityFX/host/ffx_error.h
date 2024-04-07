@@ -76,7 +76,7 @@ namespace FfxCas
 /// @ingroup Errors
 #define FFX_VALIDATE(x)                          \
     {                                            \
-        FfxErrorCode ret = x;                    \
-        FFX_RETURN_ON_ERROR(ret == FFX_OK, ret); \
+        FfxCas::FfxErrorCode ret = x;                    \
+        FFX_RETURN_ON_ERROR(ret == FfxCas::FFX_OK, ret); \
     }
 }  // namespace FfxCas

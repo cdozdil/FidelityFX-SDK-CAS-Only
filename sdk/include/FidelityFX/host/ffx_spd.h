@@ -117,7 +117,7 @@ typedef struct FfxSpdContextDescription {
 
     uint32_t                    flags;                              ///< A collection of <c><i>FfxSpdInitializationFlagBits</i></c>
     FfxSpdDownsampleFilter      downsampleFilter;
-    FfxInterface                backendInterface;                   ///< A set of pointers to the backend implementation for FidelityFX.
+    FfxCas::FfxInterface        backendInterface;  ///< A set of pointers to the backend implementation for FidelityFX.
 
 } FfxSpdContextDescription;
 
@@ -127,8 +127,8 @@ typedef struct FfxSpdContextDescription {
 /// @ingroup FfxSpd
 typedef struct FfxSpdDispatchDescription {
 
-    FfxCommandList              commandList;        ///< The <c><i>FfxCommandList</i></c> to record rendering commands into.
-    FfxResource                 resource;           ///< The <c><i>FfxResource</i></c> to downsample
+    FfxCas::FfxCommandList commandList;  ///< The <c><i>FfxCommandList</i></c> to record rendering commands into.
+    FfxCas::FfxResource    resource;     ///< The <c><i>FfxResource</i></c> to downsample
 
 } FfxSpdDispatchDescription;
 
@@ -180,7 +180,7 @@ typedef struct FfxSpdContext {
 /// FFX_ERROR_BACKEND_API_ERROR         The operation failed because of an error returned from the backend.
 ///
 /// @ingroup FfxSpd
-FFX_API FfxErrorCode ffxSpdContextCreate(FfxSpdContext* pContext, const FfxSpdContextDescription* pContextDescription);
+FfxCas::FfxErrorCode ffxSpdContextCreate(FfxSpdContext* pContext, const FfxSpdContextDescription* pContextDescription);
 
 /// Dispatches work to the FidelityFX SPD context
 ///
@@ -195,7 +195,7 @@ FFX_API FfxErrorCode ffxSpdContextCreate(FfxSpdContext* pContext, const FfxSpdCo
 /// FFX_ERROR_BACKEND_API_ERROR         The operation failed because of an error returned from the backend.
 ///
 /// @ingroup FfxSpd
-FFX_API FfxErrorCode ffxSpdContextDispatch(FfxSpdContext* pContext, const FfxSpdDispatchDescription* pDispatchDescription);
+FfxCas::FfxErrorCode ffxSpdContextDispatch(FfxSpdContext* pContext, const FfxSpdDispatchDescription* pDispatchDescription);
 
 /// Destroy the FidelityFX SPD context.
 ///
@@ -207,7 +207,7 @@ FFX_API FfxErrorCode ffxSpdContextDispatch(FfxSpdContext* pContext, const FfxSpd
 /// FFX_ERROR_CODE_NULL_POINTER         The operation failed because either <c><i>context</i></c> was <c><i>NULL</i></c>.
 ///
 /// @ingroup FfxSpd
-FFX_API FfxErrorCode ffxSpdContextDestroy(FfxSpdContext* pContext);
+FfxCas::FfxErrorCode ffxSpdContextDestroy(FfxSpdContext* pContext);
 
 #if defined(__cplusplus)
 }

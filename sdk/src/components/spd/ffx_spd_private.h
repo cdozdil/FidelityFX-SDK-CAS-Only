@@ -65,13 +65,13 @@ typedef struct FfxSpdContext_Private
     FfxSpdContextDescription    contextDescription;
     FfxUInt32                   effectContextId;
     SpdConstants                constants;
-    FfxDevice                   device;
-    FfxDeviceCapabilities       deviceCapabilities;
-    FfxConstantBuffer           constantBuffer;
+    FfxCas::FfxDevice           device;
+    FfxCas::FfxDeviceCapabilities deviceCapabilities;
+    FfxCas::FfxConstantBuffer   constantBuffer;
 
-    FfxPipelineState            pipelineDownsample;
+    FfxCas::FfxPipelineState    pipelineDownsample;
 
-    FfxResourceInternal srvResources[FFX_SPD_RESOURCE_IDENTIFIER_COUNT];
-    FfxResourceInternal uavResources[FFX_SPD_RESOURCE_IDENTIFIER_COUNT];
+    FfxCas::FfxResourceInternal srvResources[FFX_SPD_RESOURCE_IDENTIFIER_COUNT];
+    FfxCas::FfxResourceInternal uavResources[FFX_SPD_RESOURCE_IDENTIFIER_COUNT];
 
 } FfxSpdContext_Private;
